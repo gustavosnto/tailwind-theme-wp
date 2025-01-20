@@ -1,98 +1,74 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
-const autoprefixer = require('gulp-autoprefixer');
+const postcss = require('gulp-postcss');
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
 const browserSync = require('browser-sync').create();
 const concat = require('gulp-concat');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
-const cssnano = require('cssnano');
 
-// Caminhos para os arquivos
-const paths = {
-  styles: {
-    assets: './assets/scss/**/*.scss',
-    dest: './assets/css/'
-  },
-  scripts: {
-    assets: './assets/js/scripts/**/*.js',
-    dest: './assets/js/'
-  },
-  plugins: {
-    css: './assets/css/libs/*.css',
-    js: './assets/js/libs/*.js'
-  },
-  php: [
-    '*.php',
-    './includes/**/*.php',
-    './templates/**/*.php',
-    './parts/**/*.php'
-  ]
-};
-
-// Compilando Sass, adicionando autoprefixer e minificando
 function compilaSass() {
-  return gulp.src(paths.styles.src)
+  return gulp.src('./assets/scss/*.scss')
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-    .pipe(autoprefixer({
-      overrideBrowserslist: ['last 2 versions'],
-      cascade: false,
-    }))
-    .pipe(cssnano())
-    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(postcss([tailwindcss('./tailwind.config.js'), autoprefixer()]))
+    .pipe(gulp.dest('./assets/css/'))
     .pipe(browserSync.stream());
 }
 
-// Processando CSS de plugins
+gulp.task('sass', compilaSass);
+
 function pluginsCSS() {
-  return gulp.src(paths.plugins.css)
-    .pipe(concat('plugins.css'))
-    .pipe(cssnano())
-    .pipe(gulp.dest(paths.styles.dest))
-    .pipe(browserSync.stream());
+  return gulp.src('./assets/css/libs/*.css')
+  .pipe(concat('plugins.css'))
+  .pipe(gulp.dest('./assets/css/'))
+  .pipe(browserSync.stream())
 }
 
-// Processando JS customizado
+gulp.task('plugincss', pluginsCSS);
+
 function gulpJs() {
-  return gulp.src(paths.scripts.src)
-    .pipe(concat('all.js'))
-    .pipe(babel({ presets: ['@babel/env'] }))
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.scripts.dest))
-    .pipe(browserSync.stream());
+  return gulp.src('./assets/js/scripts/*.js')
+  .pipe(concat('all.js'))
+  .pipe(babel({
+      presets: ['@babel/env']
+  }))
+  .pipe(uglify())
+  .pipe(gulp.dest('./assets/js/'))
+  .pipe(browserSync.stream());
 }
 
-// Processando JS de plugins
+gulp.task('alljs', gulpJs);
+
 function pluginsJs() {
-  return gulp.src(paths.plugins.js)
-    .pipe(concat('plugins.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.scripts.dest))
-    .pipe(browserSync.stream());
+  return gulp
+  .src(['./assets/js/libs/*'])
+  .pipe(concat('plugins.js'))
+  .pipe(gulp.dest('./assets/js/'))
+  .pipe(browserSync.stream())
 }
 
-// Configurando o BrowserSync
+gulp.task('pluginjs', pluginsJs);
+
 function browser() {
   browserSync.init({
-    proxy: 'dominio.local', // Substitua pelo seu domínio local
-    notify: false
-  });
+    proxy: 'dominio.local'
+  })
 }
 
-// Observando mudanças nos arquivos
-function watchFiles() {
-  gulp.watch(paths.styles.src, compilaSass);
-  gulp.watch(paths.plugins.css, pluginsCSS);
-  gulp.watch(paths.php).on('change', browserSync.reload);
-  gulp.watch(paths.scripts.src, gulpJs);
-  gulp.watch(paths.plugins.js, pluginsJs);
-}
-
-// Definindo tarefas do Gulp
-gulp.task('sass', compilaSass);
-gulp.task('plugincss', pluginsCSS);
-gulp.task('alljs', gulpJs);
-gulp.task('pluginjs', pluginsJs);
 gulp.task('browser-sync', browser);
-gulp.task('watch', watchFiles);
+
+function watch() {
+  gulp.watch('./assets/scss/**/*.scss', compilaSass);
+  gulp.watch('./assets/css/libs/*.css', pluginsCSS);
+  gulp.watch(['*.php', './includes/**/*.php', './templates/**/*.php', './parts/**/*.php'], gulp.series(compilaSass, (done) => {
+    browserSync.reload();
+    done();
+  }));
+  gulp.watch('./assets/js/scripts/*.js', gulpJs);
+  gulp.watch('./assets/js/libs/*.js', pluginsJs);
+}
+
+gulp.task('watch', watch);
 
 gulp.task('default', gulp.parallel('watch', 'browser-sync', 'sass', 'plugincss', 'alljs', 'pluginjs'));
