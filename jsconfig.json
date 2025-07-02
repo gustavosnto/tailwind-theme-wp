@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "./assets/js/",
+    "rootDir": "./assets/js/scripts/",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "assets/js/scripts/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "assets/js/all.js",
+    "assets/js/plugins.js"
+  ]
+}

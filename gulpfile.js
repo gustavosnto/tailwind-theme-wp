@@ -52,7 +52,14 @@ gulp.task('pluginjs', pluginsJs);
 
 function browser() {
   browserSync.init({
-    proxy: 'dominio.local'
+    proxy: 'exfutebol.etc', // Altere para o seu domínio local
+    open: false,
+    notify: false,
+    host: 'localhost',
+    port: 3000,
+    ui: {
+      port: 3001
+    }
   })
 }
 

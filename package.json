@@ -4,7 +4,11 @@
   "description": "Theme Wordpress with Tailwind and Gulp",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp",
+    "build": "gulp sass && gulp plugincss && gulp alljs && gulp pluginjs",
+    "watch": "gulp watch",
+    "sync": "gulp browser-sync"
   },
   "repository": {
     "type": "git",
@@ -17,7 +21,7 @@
     "url": "https://github.com/gustavosnto/tailwind-theme-wp/issues"
   },
   "homepage": "https://github.com/gustavosnto/tailwind-theme-wp#readme",
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "autoprefixer": "^10.4.20",
@@ -32,5 +36,10 @@
     "postcss": "^8.5.1",
     "sass": "^1.83.4",
     "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16"
   }
 }
