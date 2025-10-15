@@ -1,67 +1,275 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// Import Google Fonts with optimized loading
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
 
-// Import Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+// Base layer for custom resets and defaults
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
 
-// Custom components
-@layer components {
-  .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200;
+  body {
+    @apply antialiased;
   }
-  
-  .btn-secondary {
-    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500;
+
+  // Improved focus styles
+  *:focus {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
   }
-  
-  .card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden;
+
+  // Better link styles
+  a {
+    @apply transition-colors duration-200;
   }
-  
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+
+  // Improved headings
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold leading-tight tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  h3 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+  h4 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+  h5 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+  h6 {
+    @apply text-base md:text-lg lg:text-xl;
   }
 }
 
-// Custom utilities
+// Modern component system
+@layer components {
+  // Button variants
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-base;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-100 text-secondary-900 hover:bg-secondary-200 focus:ring-secondary-500 border-secondary-200;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border-current text-primary-600 hover:bg-primary-50 hover:text-primary-700;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent border-transparent text-primary-600 hover:bg-primary-50 shadow-none;
+  }
+
+  // Card components
+  .card {
+    @apply bg-white rounded-xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl;
+  }
+
+  .card-header {
+    @apply p-6 pb-0;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .card-footer {
+    @apply p-6 pt-0 border-t border-gray-100 mt-4;
+  }
+
+  // Container system
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-sm {
+    @apply max-w-2xl mx-auto px-4 sm:px-6;
+  }
+
+  .container-lg {
+    @apply max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  // Navigation components
+  .nav-link {
+    @apply text-secondary-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200;
+  }
+
+  .nav-link-active {
+    @apply text-primary-600 bg-primary-50;
+  }
+
+  // Form components
+  .form-input {
+    @apply block w-full px-4 py-3 border border-secondary-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-secondary-700 mb-2;
+  }
+
+  .form-error {
+    @apply text-red-600 text-sm mt-1;
+  }
+
+  // WordPress specific improvements
+  .wp-block-image {
+    @apply rounded-lg overflow-hidden shadow-md;
+  }
+
+  .wp-block-quote {
+    @apply border-l-4 border-primary-500 pl-6 italic text-lg text-secondary-700 bg-secondary-50 p-6 rounded-r-lg;
+  }
+
+  .wp-block-pullquote {
+    @apply text-center text-2xl font-semibold text-primary-600 border-t-4 border-b-4 border-primary-500 py-8 my-8;
+  }
+}
+
+// Enhanced utilities
 @layer utilities {
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
   .bg-gradient-primary {
-    background: linear-gradient(135deg, theme('colors.primary.500') 0%, theme('colors.primary.700') 100%);
+    background: linear-gradient(
+      135deg,
+      theme("colors.primary.500") 0%,
+      theme("colors.primary.700") 100%
+    );
+  }
+
+  .bg-gradient-secondary {
+    background: linear-gradient(
+      135deg,
+      theme("colors.secondary.100") 0%,
+      theme("colors.secondary.300") 100%
+    );
+  }
+
+  .bg-mesh-gradient {
+    background: radial-gradient(
+        at 40% 20%,
+        theme("colors.primary.500") 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 80% 0%,
+        theme("colors.secondary.400") 0px,
+        transparent 50%
+      ),
+      radial-gradient(
+        at 0% 50%,
+        theme("colors.primary.600") 0px,
+        transparent 50%
+      );
+  }
+
+  // Modern glass morphism effect
+  .glass {
+    @apply backdrop-blur-lg bg-white/70 border border-white/20 shadow-xl;
+  }
+
+  // Enhanced animations
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
   }
 }
 
-// WordPress specific styles
+// WordPress alignment classes (optimized)
 .screen-reader-text {
   @apply sr-only;
 }
 
 .aligncenter {
-  @apply mx-auto;
+  @apply mx-auto block;
 }
 
 .alignleft {
-  @apply float-left mr-4;
+  @apply float-left mr-6 mb-4;
 }
 
 .alignright {
-  @apply float-right ml-4;
+  @apply float-right ml-6 mb-4;
 }
 
-// Gallery styles
+.alignwide {
+  @apply w-full max-w-5xl mx-auto;
+}
+
+.alignfull {
+  @apply w-screen relative left-1/2 right-1/2 -mx-[50vw];
+}
+
+// Enhanced gallery styles
 .wp-block-gallery {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-// Comment styles
+.wp-block-gallery figure {
+  @apply m-0 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+// Improved comment styles
 .comment-list {
-  @apply space-y-4;
+  @apply space-y-6;
 }
 
 .comment {
-  @apply border-l-4 border-primary-500 pl-4;
+  @apply border-l-4 border-primary-500 pl-6 py-4 bg-secondary-50/50 rounded-r-lg;
+}
+
+.comment-meta {
+  @apply text-sm text-secondary-600 mb-2;
+}
+
+.comment-content {
+  @apply prose prose-sm max-w-none;
+}
+
+// Print styles
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+
+  body {
+    @apply text-black bg-white;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .btn {
+    @apply border-2 border-current;
+  }
 }

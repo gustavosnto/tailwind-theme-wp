@@ -1,13 +1,16 @@
-# tailwind-theme-wp
-# WordPress Theme
+# WordPress Theme com Tailwind CSS v4
 
-Um tema WordPress moderno e responsivo construído com **Tailwind CSS** e **Gulp** para automação de tarefas.
+Este tema WordPress foi atualizado para usar o **Tailwind CSS v4**, a versão mais recente que oferece melhor performance e funcionalidades aprimoradas.
 
-## 🚀 Características
+## 🚀 Principais Atualizações
 
-- ✅ **Tailwind CSS 3.4+** - Framework CSS utility-first
-- ✅ **Gulp 5** - Automação de tarefas
-- ✅ **Sass/SCSS** - Pré-processador CSS
+### Tailwind CSS v4.1.14
+
+- ✅ Arquitetura completamente nova e otimizada
+- ✅ Configuração via CSS com `@theme` ao invés de `tailwind.config.js`
+- ✅ Melhor tree-shaking e performance de compilação
+- ✅ Plugin PostCSS atualizado (`@tailwindcss/postcss`)
+- ✅ Suporte a container queries (`@tailwindcss/container-queries`)
 - ✅ **BrowserSync** - Sincronização de navegador em tempo real
 - ✅ **Babel** - Transpilação de JavaScript ES6+
 - ✅ **Autoprefixer** - Prefixos CSS automáticos
@@ -26,6 +29,7 @@ Um tema WordPress moderno e responsivo construído com **Tailwind CSS** e **Gulp
 ## 🛠️ Instalação
 
 1. **Clone o repositório** no diretório de temas do WordPress:
+
 ```bash
 cd wp-content/themes/
 git clone https://github.com/gustavosnto/tailwind-theme-wp.git name-theme
@@ -33,17 +37,20 @@ cd name-theme
 ```
 
 2. **Instale as dependências**:
+
 ```bash
 npm install
 ```
 
 3. **Configure o BrowserSync** (opcional):
-Edite o arquivo `gulpfile.js` e altere a URL do proxy:
+   Edite o arquivo `gulpfile.js` e altere a URL do proxy:
+
 ```javascript
-proxy: 'seu-dominio.local'
+proxy: "seu-dominio.local";
 ```
 
 4. **Execute o ambiente de desenvolvimento**:
+
 ```bash
 npm run dev
 ```
@@ -81,6 +88,7 @@ name-theme/
 ## 🎨 Personalização
 
 ### Tailwind CSS
+
 Personalize as cores, fontes e outros aspectos no arquivo `tailwind.config.js`:
 
 ```javascript
@@ -101,6 +109,7 @@ theme: {
 ```
 
 ### Sass/SCSS
+
 Adicione estilos customizados no arquivo `assets/scss/style.scss`:
 
 ```scss
@@ -122,11 +131,14 @@ O tema incluí suporte para:
 - **Custom Logo** - Logo personalizado
 
 ### Menus
+
 Registre os menus em **Aparência > Menus**:
+
 - **Primary Menu** - Menu principal
 - **Footer Menu** - Menu do rodapé
 
 ### Widgets
+
 Adicione widgets na **Sidebar** em **Aparência > Widgets**.
 
 ## 📱 Responsividade
@@ -148,6 +160,7 @@ npm run build
 ```
 
 Isso irá:
+
 - Compilar e minificar o CSS
 - Transpilar e minificar o JavaScript
 - Otimizar imagens
@@ -168,6 +181,7 @@ Este projeto está sob a licença ISC. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👨‍💻 Autor
 
 **Gustavo Santos**
+
 - GitHub: [@gustavosnto](https://github.com/gustavosnto)
 - Website: [3ww.com.br](https://3ww.com.br)
 

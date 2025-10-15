@@ -10,8 +10,8 @@ const { deleteAsync } = require("del");
 
 // Paths configuration
 const paths = {
-  tailwind: {
-    src: "./assets/css/tailwind-base.css",
+  main: {
+    src: "./assets/css/main.css",
     dest: "./assets/css/",
   },
   scss: {
@@ -65,43 +65,24 @@ const postcssPluginsProd = [
   }),
 ];
 
-// Compile Tailwind CSS base
-function compilaTailwind() {
+// Compile main CSS file (Tailwind + SCSS combined)
+function compilaMain() {
   const isProduction = process.env.NODE_ENV === "production";
   const plugins = isProduction ? postcssPluginsProd : postcssPlugins;
 
   return gulp
-    .src(paths.tailwind.src)
+    .src(paths.main.src)
     .pipe(postcss(plugins))
-    .pipe(gulp.dest(paths.tailwind.dest))
+    .pipe(gulp.dest(paths.main.dest))
     .pipe(browserSync.stream({ match: "**/*.css" }));
 }
 
-// Compile SCSS (without Tailwind processing)
-function compilaSass() {
+// Compile main CSS for development (uncompressed)
+function compilaMainDev() {
   return gulp
-    .src(paths.scss.src)
-    .pipe(
-      sass({
-        outputStyle: "compressed",
-        includePaths: ["node_modules"],
-      }).on("error", sass.logError)
-    )
-    .pipe(gulp.dest(paths.scss.dest))
-    .pipe(browserSync.stream({ match: "**/*.css" }));
-}
-
-// Compile SCSS for development (uncompressed)
-function compilaSassDev() {
-  return gulp
-    .src(paths.scss.src)
-    .pipe(
-      sass({
-        outputStyle: "expanded",
-        includePaths: ["node_modules"],
-      }).on("error", sass.logError)
-    )
-    .pipe(gulp.dest(paths.scss.dest))
+    .src(paths.main.src)
+    .pipe(postcss(postcssPlugins))
+    .pipe(gulp.dest(paths.main.dest))
     .pipe(browserSync.stream({ match: "**/*.css" }));
 }
 
@@ -212,13 +193,13 @@ function watch() {
 function clean() {
   return deleteAsync([
     paths.scss.dest + "style.css",
+    paths.scss.dest + "tailwind-base.css", // Remove o arquivo antigo também
     paths.js.dest + "all.js",
     paths.js.dest + "plugins.js",
   ]);
 }
 
 // Task definitions
-gulp.task("tailwind", compilaTailwind);
 gulp.task("sass", compilaSass);
 gulp.task("sass:dev", compilaSassDev);
 gulp.task("plugincss", pluginsCSS);
@@ -234,7 +215,7 @@ gulp.task(
   "build",
   gulp.series(
     "clean",
-    gulp.parallel("tailwind", "sass", "plugincss", "alljs", "pluginjs")
+    gulp.parallel("sass", "plugincss", "alljs", "pluginjs")
   )
 );
 
@@ -242,7 +223,7 @@ gulp.task(
   "dev",
   gulp.series(
     "clean",
-    gulp.parallel("tailwind", "sass:dev", "plugincss", "alljs:dev", "pluginjs"),
+    gulp.parallel("sass:dev", "plugincss", "alljs:dev", "pluginjs"),
     gulp.parallel("browser-sync", "watch")
   )
 );
